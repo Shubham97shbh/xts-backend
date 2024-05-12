@@ -135,6 +135,8 @@ def check_and_trail_sl_sell(exchange_instrument_id, strike, side, process_id):
     while EMERGENCY_STOP:
         EMERGENCY_STOP = process['EMERGENCY_STOP']
         cur_price = round(Data.get_ltp(exchange_instrument_id))
+        if SL_FLAG.upper() == 'FALSE':
+            continue
         pnl_percent = (entry_price - cur_price) / cur_price * 100
         if side == "CE":
             # ask
@@ -674,16 +676,16 @@ def bnfv_1(process_id, data: dict):
         CUR_PE_MULTIPLE, PORTFOLIO_RISK, SL_FLAG, TRADE_TYPE
     QTY = data['qty']
     PORTFOLIO_RISK = -1 * ((QTY / 15) * 1_00_000) * 0.01
-    SL_PERCENTAGE = data['sl_percentage']
-    TRAIL_SL = data['trailing_sl']
-    CUR_CE_MULTIPLE = CE_MULTIPLE = data['trailing_tp']
-    CUR_PE_MULTIPLE = PE_MULTIPLE = data['trailing_tp']
-    CE_REENTRY = data['ce_rentry']
-    PE_REENTRY = data['pe_rentry']
+    SL_PERCENTAGE = int(data['sl_percentage'])
+    TRAIL_SL = int(data['trailing_sl'])
+    CUR_CE_MULTIPLE = CE_MULTIPLE = int(data['trailing_tp'])
+    CUR_PE_MULTIPLE = PE_MULTIPLE = int(data['trailing_tp'])
+    CE_REENTRY = int(data['ce_rentry'])
+    PE_REENTRY = int(data['pe_rentry'])
     IS_POINTS = data['isPoint']
     TRADE = data['trade'].upper()
     TRADE_TYPE = ''
-    OTM_GAP = data['otm_gap']
+    OTM_GAP = int(data['otm_gap'])
     SL_FLAG = data['sl_flag']
     CURRENT_PNL = 0
     CURRENT_CE_MARGIN = 0
@@ -762,7 +764,7 @@ def bnfv_1(process_id, data: dict):
             f'{datetime.now()}| async result {async_result} | Trade Place: {TRADE} | Has been completed')
         # Task for sell has been started
 
-        return async_result
+        return async_result, strike_ce, strike_pe, ce_instrument_id, pe_instrument_id
 
     except Exception as e:
         logger.error(f"error in main(): {e}")

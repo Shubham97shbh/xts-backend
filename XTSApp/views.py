@@ -40,7 +40,7 @@ class StartProcessView(APIView):
                 return Response({"message": f"Failed to start process {process_id}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
             # Calling Strategy
-            task_id = bnfv_1(process_id, data)
+            task_id, strike_ce, strike_pe, ce_instrument_id, pe_instrument_id = bnfv_1(process_id, data)
 
             # Modify the value in SharedObject
             SharedObject.modify_value(task_id, process_id, nested_key='task_id')
@@ -55,7 +55,9 @@ class StartProcessView(APIView):
             error_data = {'message': error_message, 'error': str(E)}
             return JsonResponse(error_data, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-        return Response({"status_code": 200, "process_id": process_id, "message": f"Process {process_id} started"}, status=status.HTTP_200_OK)
+        return Response({"status_code": 200, "process_id": process_id,"strike_ce":strike_ce,"strike_pe": strike_pe,
+                        "ce_instrument_id": ce_instrument_id, "pe_instrument_id":pe_instrument_id,
+                        "message": f"Process {process_id} started"}, status=status.HTTP_200_OK)
 
 
 class LogsView(APIView):

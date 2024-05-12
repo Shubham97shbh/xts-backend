@@ -2,20 +2,22 @@ from django.db import models
 import json
 
 def update_keys(node, kv, new_value):
-                    if isinstance(node, list):
-                        for i in node:
-                            update_keys(i, kv, new_value)
-                    elif isinstance(node, dict):
-                        if kv in node:
-                            if isinstance(node[kv], dict):
-                                node[kv].update(new_value)
-                            elif isinstance(node[kv], list):
-                                node[kv].append(new_value)
-                            else:
-                                node[kv] = new_value
-                    for j in node.values():
-                            update_keys(j, kv, new_value)
-                    return node
+    if isinstance(node, list):
+        # if node is a list
+        for i in node:
+            update_keys(i, kv, new_value)
+    elif isinstance(node, dict):
+        if kv in node:
+            if isinstance(node[kv], dict):
+                node[kv].update(new_value)
+            elif isinstance(node[kv], list):
+                node[kv].append(new_value)
+            else:
+                node[kv] = new_value
+        # if node is a dic
+        for j in node.values():
+                update_keys(j, kv, new_value)
+    return node
 
 class SharedObject(models.Model):
     key = models.IntegerField(primary_key=True)
