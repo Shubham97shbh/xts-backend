@@ -1,0 +1,287 @@
+2024-05-09 08:15:57,243 - error in main(): Object of type UpdatedXTSConnect is not JSON serializable
+2024-05-09 08:19:34,983 - Opening Order Placing: 'result'
+2024-05-09 08:19:35,740 - Opening Order Placing: 'result'
+2024-05-09 08:19:35,740 - error in main(): 'str' object has no attribute 'app'
+2024-05-09 08:24:55,333 - error in main(): Object of type UpdatedXTSConnect is not JSON serializable
+2024-05-09 08:35:57,131 - error in main(): Object of type UpdatedXTSConnect is not JSON serializable
+2024-05-09 08:39:46,358 - Order response: 47800PE {'type': 'success', 'code': 's-orders-0001', 'description': 'Request sent', 'result': {'AppOrderID': 1210031239, 'OrderUniqueIdentifier': 'BNF_1', 'ClientID': '*****'}}
+2024-05-09 08:39:46,371 - Order response: 47800CE {'type': 'success', 'code': 's-orders-0001', 'description': 'Request sent', 'result': {'AppOrderID': 1210031240, 'OrderUniqueIdentifier': 'BNF_1', 'ClientID': '*****'}}
+2024-05-09 08:39:47,163 - 396.65
+2024-05-09 08:39:47,172 - 383.35
+2024-05-09 08:39:47,172 - 2024-05-09 08:39:47.172714 | Opening Order Placed For Sell: 47800PE | ENTRY: 396.65 | SL: 436.315
+2024-05-09 08:39:47,172 - Opening Order Placing: 102
+2024-05-09 08:39:47,181 - 2024-05-09 08:39:47.181883 | Opening Order Placed For Sell: 47800CE | ENTRY: 383.35 | SL: 421.685
+2024-05-09 08:39:47,181 - Opening Order Placing: 102
+2024-05-09 08:51:19,825 - Order response: 47800CE {'type': 'success', 'code': 's-orders-0001', 'description': 'Request sent', 'result': {'AppOrderID': 1210031546, 'OrderUniqueIdentifier': 'BNF_1', 'ClientID': '*****'}}
+2024-05-09 08:51:19,836 - Order response: 47800PE {'type': 'success', 'code': 's-orders-0001', 'description': 'Request sent', 'result': {'AppOrderID': 1210031547, 'OrderUniqueIdentifier': 'BNF_1', 'ClientID': '*****'}}
+2024-05-09 08:51:20,475 - 373.9
+2024-05-09 08:51:20,481 - SL POINT: 411.29
+2024-05-09 08:51:20,482 - 2024-05-09 08:51:20.482024 | Opening Order Placed For Sell: 47800CE | ENTRY: 373.9 | SL: 411.29
+2024-05-09 08:51:20,482 - Opening Order Placing: 102
+2024-05-09 08:51:20,484 - 409.85
+2024-05-09 08:51:20,493 - SL POINT: 450.835
+2024-05-09 08:51:20,493 - 2024-05-09 08:51:20.493557 | Opening Order Placed For Sell: 47800PE | ENTRY: 409.85 | SL: 450.835
+2024-05-09 08:51:20,493 - Opening Order Placing: 102
+2024-05-09 08:55:21,508 - Order response: 47700PE {'type': 'success', 'code': 's-orders-0001', 'description': 'Request sent', 'result': {'AppOrderID': 1210031762, 'OrderUniqueIdentifier': 'BNF_1', 'ClientID': '*****'}}
+2024-05-09 08:55:21,508 - Order response: 47700CE {'type': 'success', 'code': 's-orders-0001', 'description': 'Request sent', 'result': {'AppOrderID': 1210031763, 'OrderUniqueIdentifier': 'BNF_1', 'ClientID': '*****'}}
+2024-05-09 08:55:22,141 - 413.9
+2024-05-09 08:55:22,142 - SL POINT: {sl_point}
+2024-05-09 08:55:22,142 - SL POINT: 455.29
+2024-05-09 08:55:22,142 - 2024-05-09 08:55:22.142370 | Opening Order Placed For Sell: 47700CE | ENTRY: 413.9 | SL: 455.29
+2024-05-09 08:55:22,142 - Opening Order Placing: 102
+2024-05-09 08:55:22,148 - 365.25
+2024-05-09 08:55:22,148 - SL POINT: {sl_point}
+2024-05-09 08:55:22,149 - SL POINT: 401.775
+2024-05-09 08:55:22,149 - 2024-05-09 08:55:22.149195 | Opening Order Placed For Sell: 47700PE | ENTRY: 365.25 | SL: 401.775
+2024-05-09 08:55:22,149 - Opening Order Placing: 102
+2024-05-09 09:03:46,037 - Order response: 47700CE {'type': 'success', 'code': 's-orders-0001', 'description': 'Request sent', 'result': {'AppOrderID': 1210032239, 'OrderUniqueIdentifier': 'BNF_1', 'ClientID': '*****'}}
+2024-05-09 09:03:46,766 - 386.65
+2024-05-09 09:03:46,766 - SL POINT: {sl_point}
+2024-05-09 09:03:46,766 - SL POINT: 425.315
+2024-05-09 09:03:46,766 - 2024-05-09 09:03:46.766739 | Opening Order Placed For Sell: 47700CE | ENTRY: 386.65 | SL: 425.315
+2024-05-09 09:03:46,766 - Opening Order Placing: 102
+2024-05-10 04:05:47,822 - Order response: 47600CE {'type': 'success', 'code': 's-orders-0001', 'description': 'Request sent', 'result': {'AppOrderID': 1210025312, 'OrderUniqueIdentifier': 'BNF_1', 'ClientID': '*****'}}
+2024-05-10 04:05:48,083 - Order response: 47600PE {'type': 'success', 'code': 's-orders-0001', 'description': 'Request sent', 'result': {'AppOrderID': 1210025313, 'OrderUniqueIdentifier': 'BNF_1', 'ClientID': '*****'}}
+2024-05-10 04:05:48,467 - 406.7
+2024-05-10 04:05:48,474 - SL POINT: 396.7
+2024-05-10 04:05:48,480 - SL POINT: 447.37
+2024-05-10 04:05:48,485 - 2024-05-10 04:05:48.485557 | Opening Order Placed For Sell: 47600CE | ENTRY: 406.7 | SL: 447.37
+2024-05-10 04:05:48,511 - Starting Sell Check And Trail 47600CE | Entry: 406.7
+2024-05-10 04:05:48,562 - Opening Order Placing: 'result'
+2024-05-10 04:05:48,720 - 383.45
+2024-05-10 04:05:48,726 - SL POINT: 373.45
+2024-05-10 04:05:48,731 - SL POINT: 421.795
+2024-05-10 04:05:48,736 - 2024-05-10 04:05:48.736429 | Opening Order Placed For Sell: 47600PE | ENTRY: 383.45 | SL: 421.795
+2024-05-10 04:05:48,757 - Starting Sell Check And Trail 47600PE | Entry: 383.45
+2024-05-10 04:05:48,827 - Opening Order Placing: 'result'
+2024-05-10 04:06:09,559 - 2024-05-10 04:06:09.559809 | Modified Order Placed: 47600PE | Entry: 383.45 | UpdatedSL: 404.9232
+2024-05-10 04:06:46,187 - 2024-05-10 04:06:46.187596 | Modified Order Placed: 47600PE | Entry: 383.45 | UpdatedSL: 388.726272
+2024-05-10 04:07:18,710 - 2024-05-10 04:07:18.710443 | Modified Order Placed: 47600PE | Entry: 383.45 | UpdatedSL: 373.17722112
+2024-05-10 04:10:01,470 - 1 | 2024-05-10 04:10:01.470216 | Stoploss hit: 47600PE | CMP: 373.4 | SL: 373.17722112
+2024-05-10 04:10:01,471 - 2024-05-10 04:10:01.471253 | Stoploss hit: 47600PE | CMP: 373.4 | SL: 373.17722112
+2024-05-10 04:13:39,548 - 1 | 2024-05-10 04:13:39.548312 | Stoploss hit: 47600CE | CMP: 451.4 | SL: 447.37
+2024-05-10 04:13:39,549 - 2024-05-10 04:13:39.549394 | Stoploss hit: 47600CE | CMP: 451.4 | SL: 447.37
+2024-05-10 05:19:10,820 - Order response: 47900CE {'type': 'success', 'code': 's-orders-0001', 'description': 'Request sent', 'result': {'AppOrderID': 1210026623, 'OrderUniqueIdentifier': 'BNF_1', 'ClientID': '*****'}}
+2024-05-10 05:19:10,820 - Order response: 47500PE {'type': 'success', 'code': 's-orders-0001', 'description': 'Request sent', 'result': {'AppOrderID': 1210026624, 'OrderUniqueIdentifier': 'BNF_1', 'ClientID': '*****'}}
+2024-05-10 05:19:11,444 - 259.95
+2024-05-10 05:19:11,444 - 310.5
+2024-05-10 05:19:11,449 - SL POINT: 249.95
+2024-05-10 05:19:11,455 - SL POINT: 285.945
+2024-05-10 05:19:11,460 - 2024-05-10 05:19:11.460172 | Opening Order Placed For Sell: 47500PE | ENTRY: 259.95 | SL: 285.945
+2024-05-10 05:19:11,474 - Starting Sell Check And Trail 47500PE | Entry: 259.95
+2024-05-10 05:19:11,503 - SL POINT: 300.5
+2024-05-10 05:19:11,508 - SL POINT: 341.55
+2024-05-10 05:19:11,513 - 2024-05-10 05:19:11.513381 | Opening Order Placed For Sell: 47900CE | ENTRY: 310.5 | SL: 341.55
+2024-05-10 05:19:11,531 - Starting Sell Check And Trail 47900CE | Entry: 310.5
+2024-05-10 05:19:11,590 - Opening Order Placing: 'result'
+2024-05-10 05:19:11,642 - Opening Order Placing: 'result'
+2024-05-10 05:19:27,856 - 2024-05-10 05:19:27.856018 | Modified Order Placed: 47900CE | Entry: 310.5 | UpdatedSL: 327.88800000000003
+2024-05-10 05:21:51,240 - 2024-05-10 05:21:51.240766 | Modified Order Placed: 47900CE | Entry: 310.5 | UpdatedSL: 314.77248000000003
+2024-05-10 05:21:51,249 - 2024-05-10 05:21:51.249599 | Modified Order Placed: 47900CE | Entry: 310.5 | UpdatedSL: 302.1815808
+2024-05-10 05:21:51,455 - 1 | 2024-05-10 05:21:51.455765 | Stoploss hit: 47500PE | CMP: 300.7 | SL: 285.945
+2024-05-10 05:21:51,456 - 2024-05-10 05:21:51.456763 | Stoploss hit: 47500PE | CMP: 300.7 | SL: 285.945
+2024-05-10 05:22:21,653 - 2024-05-10 05:22:21.653685 | Modified Order Placed: 47900CE | Entry: 310.5 | UpdatedSL: 290.094317568
+2024-05-10 05:27:18,655 - 1 | 2024-05-10 05:27:18.654958 | Stoploss hit: 47900CE | CMP: 287.75 | SL: 290.094317568
+2024-05-10 05:27:18,656 - 2024-05-10 05:27:18.655997 | Stoploss hit: 47900CE | CMP: 287.75 | SL: 290.094317568
+2024-05-10 05:40:55,635 - Order response: 47500PE {'type': 'success', 'code': 's-orders-0001', 'description': 'Request sent', 'result': {'AppOrderID': 1210027078, 'OrderUniqueIdentifier': 'BNF_1', 'ClientID': '*****'}}
+2024-05-10 05:40:55,635 - Order response: 47900CE {'type': 'success', 'code': 's-orders-0001', 'description': 'Request sent', 'result': {'AppOrderID': 1210027077, 'OrderUniqueIdentifier': 'BNF_1', 'ClientID': '*****'}}
+2024-05-10 05:40:56,597 - 295.1
+2024-05-10 05:40:56,603 - SL POINT: 285.1
+2024-05-10 05:40:56,609 - SL POINT: 324.61
+2024-05-10 05:40:56,615 - 2024-05-10 05:40:56.615279 | Opening Order Placed For Sell: 47900CE | ENTRY: 295.1 | SL: 324.61
+2024-05-10 05:40:56,616 - 265.3
+2024-05-10 05:40:56,624 - SL POINT: 255.3
+2024-05-10 05:40:56,630 - SL POINT: 291.83
+2024-05-10 05:40:56,635 - 2024-05-10 05:40:56.635230 | Opening Order Placed For Sell: 47500PE | ENTRY: 265.3 | SL: 291.83
+2024-05-10 05:40:56,669 - Starting Sell Check And Trail 47900CE | Entry: 295.1
+2024-05-10 05:40:57,212 - Opening Order Placing: 'result'
+2024-05-10 05:40:57,227 - Opening Order Placing: 'result'
+2024-05-10 05:55:10,779 - 1 | 2024-05-10 05:55:10.779886 | Stoploss hit: 47900CE | CMP: 330.35 | SL: 324.61
+2024-05-10 05:55:10,780 - 2024-05-10 05:55:10.780971 | Stoploss hit: 47900CE | CMP: 330.35 | SL: 324.61
+2024-05-10 06:10:23,584 - Order response: 47900CE {'type': 'success', 'code': 's-orders-0001', 'description': 'Request sent', 'result': {'AppOrderID': 1210027316, 'OrderUniqueIdentifier': 'BNF_1', 'ClientID': '*****'}}
+2024-05-10 06:10:23,587 - Order response: 47500PE {'type': 'success', 'code': 's-orders-0001', 'description': 'Request sent', 'result': {'AppOrderID': 1210027317, 'OrderUniqueIdentifier': 'BNF_1', 'ClientID': '*****'}}
+2024-05-10 06:10:24,417 - 303.5
+2024-05-10 06:10:24,420 - 246.55
+2024-05-10 06:10:24,426 - SL POINT: 293.5
+2024-05-10 06:10:24,432 - SL POINT: 333.85
+2024-05-10 06:10:24,437 - 2024-05-10 06:10:24.437822 | Opening Order Placed For Sell: 47900CE | ENTRY: 303.5 | SL: 333.85
+2024-05-10 06:10:24,452 - Starting Sell Check And Trail 47900CE | Entry: 303.5
+2024-05-10 06:10:24,480 - SL POINT: 236.55
+2024-05-10 06:10:24,486 - SL POINT: 271.205
+2024-05-10 06:10:24,492 - 2024-05-10 06:10:24.492851 | Opening Order Placed For Sell: 47500PE | ENTRY: 246.55 | SL: 271.205
+2024-05-10 06:10:24,512 - Starting Sell Check And Trail 47500PE | Entry: 246.55
+2024-05-10 06:10:24,729 - Opening Order Placing: 'result'
+2024-05-10 06:10:25,165 - Opening Order Placing: 'result'
+2024-05-10 06:20:05,918 - Order response: 47700PE {'type': 'success', 'code': 's-orders-0001', 'description': 'Request sent', 'result': {'AppOrderID': 1210027386, 'OrderUniqueIdentifier': 'BNF_1', 'ClientID': '*****'}}
+2024-05-10 06:20:05,924 - Order response: 47700CE {'type': 'success', 'code': 's-orders-0001', 'description': 'Request sent', 'result': {'AppOrderID': 1210027387, 'OrderUniqueIdentifier': 'BNF_1', 'ClientID': '*****'}}
+2024-05-10 06:20:06,553 - 357
+2024-05-10 06:20:06,560 - SL POINT: 347
+2024-05-10 06:20:06,566 - SL POINT: 392.7
+2024-05-10 06:20:06,571 - 2024-05-10 06:20:06.571829 | Opening Order Placed For Sell: 47700PE | ENTRY: 357 | SL: 392.7
+2024-05-10 06:20:06,598 - Starting Sell Check And Trail 47700PE | Entry: 357
+2024-05-10 06:20:06,650 - 376.95
+2024-05-10 06:20:06,658 - SL POINT: 366.95
+2024-05-10 06:20:06,664 - SL POINT: 414.645
+2024-05-10 06:20:06,670 - 2024-05-10 06:20:06.670733 | Opening Order Placed For Sell: 47700CE | ENTRY: 376.95 | SL: 414.645
+2024-05-10 06:20:06,698 - Starting Sell Check And Trail 47700CE | Entry: 376.95
+2024-05-10 06:20:06,739 - Opening Order Placing: 'result'
+2024-05-10 06:20:06,825 - Opening Order Placing: 'result'
+2024-05-10 06:21:55,689 - Order response: 47700CE {'type': 'success', 'code': 's-orders-0001', 'description': 'Request sent', 'result': {'AppOrderID': 1210027388, 'OrderUniqueIdentifier': 'BNF_1', 'ClientID': '*****'}}
+2024-05-10 06:21:55,692 - Order response: 47700PE {'type': 'success', 'code': 's-orders-0001', 'description': 'Request sent', 'result': {'AppOrderID': 1210027389, 'OrderUniqueIdentifier': 'BNF_1', 'ClientID': '*****'}}
+2024-05-10 06:21:56,347 - 391.35
+2024-05-10 06:21:56,353 - SL POINT: 381.35
+2024-05-10 06:21:56,359 - SL POINT: 430.485
+2024-05-10 06:21:56,359 - 340.5
+2024-05-10 06:21:56,365 - 2024-05-10 06:21:56.365412 | Opening Order Placed For Sell: 47700CE | ENTRY: 391.35 | SL: 430.485
+2024-05-10 06:21:56,383 - SL POINT: 330.5
+2024-05-10 06:21:56,391 - SL POINT: 374.55
+2024-05-10 06:21:56,397 - 2024-05-10 06:21:56.397131 | Opening Order Placed For Sell: 47700PE | ENTRY: 340.5 | SL: 374.55
+2024-05-10 06:21:56,413 - Starting Sell Check And Trail 47700PE | Entry: 340.5
+2024-05-10 06:21:56,538 - Opening Order Placing: 'result'
+2024-05-10 06:21:56,563 - Opening Order Placing: 'result'
+2024-05-10 06:21:56,719 - 2024-05-10 06:21:56.719902 | Modified Order Placed: 47700PE | Entry: 357 | UpdatedSL: 376.99199999999996
+2024-05-10 06:27:26,071 - 1 | 2024-05-10 06:27:26.071274 | Stoploss hit: 47700PE | CMP: 377 | SL: 374.55
+2024-05-10 06:27:26,072 - 2024-05-10 06:27:26.072354 | Stoploss hit: 47700PE | CMP: 377 | SL: 374.55
+2024-05-10 06:27:29,692 - 2024-05-10 06:27:29.692366 | Modified Order Placed: 47700CE | Entry: 376.95 | UpdatedSL: 398.0592
+2024-05-10 06:27:33,820 - 1 | 2024-05-10 06:27:33.820678 | Stoploss hit: 47700PE | CMP: 376.35 | SL: 376.99199999999996
+2024-05-10 06:27:33,822 - 2024-05-10 06:27:33.822070 | Stoploss hit: 47700PE | CMP: 376.35 | SL: 376.99199999999996
+2024-05-10 06:28:31,979 - Order response: 47700PE {'type': 'success', 'code': 's-orders-0001', 'description': 'Request sent', 'result': {'AppOrderID': 1210027493, 'OrderUniqueIdentifier': 'BNF_1', 'ClientID': '*****'}}
+2024-05-10 06:28:31,979 - Order response: 47700CE {'type': 'success', 'code': 's-orders-0001', 'description': 'Request sent', 'result': {'AppOrderID': 1210027494, 'OrderUniqueIdentifier': 'BNF_1', 'ClientID': '*****'}}
+2024-05-10 06:28:32,587 - 372.15
+2024-05-10 06:28:32,593 - 362.6
+2024-05-10 06:28:32,593 - SL POINT: 362.15
+2024-05-10 06:28:32,598 - SL POINT: 352.6
+2024-05-10 06:28:32,604 - SL POINT: 398.86
+2024-05-10 06:28:32,609 - 2024-05-10 06:28:32.609020 | Opening Order Placed For Sell: 47700CE | ENTRY: 362.6 | SL: 398.86
+2024-05-10 06:28:32,624 - Starting Sell Check And Trail 47700CE | Entry: 362.6
+2024-05-10 06:28:32,653 - SL POINT: 409.365
+2024-05-10 06:28:32,658 - 2024-05-10 06:28:32.658480 | Opening Order Placed For Sell: 47700PE | ENTRY: 372.15 | SL: 409.365
+2024-05-10 06:28:32,672 - Starting Sell Check And Trail 47700PE | Entry: 372.15
+2024-05-10 06:28:32,776 - Opening Order Placing: 'result'
+2024-05-10 06:28:32,809 - Opening Order Placing: 'result'
+2024-05-10 06:29:29,167 - 2024-05-10 06:29:29.167718 | Modified Order Placed: 47700PE | Entry: 372.15 | UpdatedSL: 392.9904
+2024-05-10 06:31:05,771 - 2024-05-10 06:31:05.771711 | Modified Order Placed: 47700PE | Entry: 372.15 | UpdatedSL: 377.27078400000005
+2024-05-10 06:31:39,161 - 2024-05-10 06:31:39.161824 | Modified Order Placed: 47700PE | Entry: 372.15 | UpdatedSL: 362.17995264000007
+2024-05-10 06:36:09,392 - 1 | 2024-05-10 06:36:09.392601 | Stoploss hit: 47700PE | CMP: 368.85 | SL: 362.17995264000007
+2024-05-10 06:36:09,393 - 2024-05-10 06:36:09.393617 | Stoploss hit: 47700PE | CMP: 368.85 | SL: 362.17995264000007
+2024-05-10 06:42:29,811 - Order response: 47700PE {'type': 'success', 'code': 's-orders-0001', 'description': 'Request sent', 'result': {'AppOrderID': 1210027581, 'OrderUniqueIdentifier': 'BNF_1', 'ClientID': '*****'}}
+2024-05-10 06:42:29,814 - Order response: 47700CE {'type': 'success', 'code': 's-orders-0001', 'description': 'Request sent', 'result': {'AppOrderID': 1210027582, 'OrderUniqueIdentifier': 'BNF_1', 'ClientID': '*****'}}
+2024-05-10 06:42:30,412 - 355.6
+2024-05-10 06:42:30,418 - SL POINT: 345.6
+2024-05-10 06:42:30,423 - SL POINT: 391.16
+2024-05-10 06:42:30,428 - 2024-05-10 06:42:30.428220 | Opening Order Placed For Sell: 47700PE | ENTRY: 355.6 | SL: 391.16
+2024-05-10 06:42:30,433 - 376.85
+2024-05-10 06:42:30,442 - SL POINT: 366.85
+2024-05-10 06:42:30,447 - SL POINT: 414.535
+2024-05-10 06:42:30,452 - 2024-05-10 06:42:30.452260 | Opening Order Placed For Sell: 47700CE | ENTRY: 376.85 | SL: 414.535
+2024-05-10 06:42:30,453 - Starting Sell Check And Trail 47700PE | Entry: 355.6
+2024-05-10 06:42:30,480 - Starting Sell Check And Trail 47700CE | Entry: 376.85
+2024-05-10 06:42:30,515 - 2024-05-10 06:42:30.515459 | Modified Order Placed: 47700PE | Entry: 355.6 | UpdatedSL: 375.5136
+2024-05-10 06:42:30,583 - Opening Order Placing: 'result'
+2024-05-10 06:42:30,601 - Opening Order Placing: 'result'
+2024-05-10 06:48:05,245 - 1 | 2024-05-10 06:48:05.245323 | Stoploss hit: 47700PE | CMP: 372.3 | SL: 375.5136
+2024-05-10 06:48:05,252 - 2024-05-10 06:48:05.252615 | Stoploss hit: 47700PE | CMP: 372.3 | SL: 375.5136
+2024-05-10 06:48:40,380 - 2024-05-10 06:48:40.380219 | Modified Order Placed: 47700CE | Entry: 376.85 | UpdatedSL: 397.95360000000005
+2024-05-10 06:51:50,784 - Order response: 47700PE {'type': 'success', 'code': 's-orders-0001', 'description': 'Request sent', 'result': {'AppOrderID': 1210027631, 'OrderUniqueIdentifier': 'BNF_1', 'ClientID': '*****'}}
+2024-05-10 06:51:50,787 - Order response: 47700CE {'type': 'success', 'code': 's-orders-0001', 'description': 'Request sent', 'result': {'AppOrderID': 1210027632, 'OrderUniqueIdentifier': 'BNF_1', 'ClientID': '*****'}}
+2024-05-10 06:51:51,350 - 381.7
+2024-05-10 06:51:51,355 - SL POINT: 371.7
+2024-05-10 06:51:51,363 - SL POINT: 419.87
+2024-05-10 06:51:51,372 - 2024-05-10 06:51:51.372642 | Opening Order Placed For Sell: 47700CE | ENTRY: 381.7 | SL: 419.87
+2024-05-10 06:51:51,403 - Starting Sell Check And Trail 47700CE | Entry: 381.7
+2024-05-10 06:51:51,442 - Opening Order Placing: 'result'
+2024-05-10 06:51:51,603 - 351.5
+2024-05-10 06:51:51,609 - SL POINT: 341.5
+2024-05-10 06:51:51,614 - SL POINT: 386.65
+2024-05-10 06:51:51,619 - 2024-05-10 06:51:51.619247 | Opening Order Placed For Sell: 47700PE | ENTRY: 351.5 | SL: 386.65
+2024-05-10 06:51:51,639 - Starting Sell Check And Trail 47700PE | Entry: 351.5
+2024-05-10 06:51:51,704 - Opening Order Placing: 'result'
+2024-05-10 06:52:49,008 - Order response: 47700CE {'type': 'success', 'code': 's-orders-0001', 'description': 'Request sent', 'result': {'AppOrderID': 1210027635, 'OrderUniqueIdentifier': 'BNF_1', 'ClientID': '*****'}}
+2024-05-10 06:52:49,011 - Order response: 47700PE {'type': 'success', 'code': 's-orders-0001', 'description': 'Request sent', 'result': {'AppOrderID': 1210027636, 'OrderUniqueIdentifier': 'BNF_1', 'ClientID': '*****'}}
+2024-05-10 06:52:49,575 - 380.1
+2024-05-10 06:52:49,582 - SL POINT: 370.1
+2024-05-10 06:52:49,584 - 354.65
+2024-05-10 06:52:49,588 - SL POINT: 418.11
+2024-05-10 06:52:49,593 - SL POINT: 344.65
+2024-05-10 06:52:49,599 - SL POINT: 390.115
+2024-05-10 06:52:49,608 - 2024-05-10 06:52:49.608907 | Opening Order Placed For Sell: 47700PE | ENTRY: 354.65 | SL: 390.115
+2024-05-10 06:52:49,628 - 2024-05-10 06:52:49.628804 | Opening Order Placed For Sell: 47700CE | ENTRY: 380.1 | SL: 418.11
+2024-05-10 06:52:49,647 - Starting Sell Check And Trail 47700PE | Entry: 354.65
+2024-05-10 06:52:49,661 - Starting Sell Check And Trail 47700CE | Entry: 380.1
+2024-05-10 06:52:49,755 - Opening Order Placing: 'result'
+2024-05-10 06:52:49,951 - Opening Order Placing: 'result'
+2024-05-10 06:55:05,138 - 2024-05-10 06:55:05.138345 | Modified Order Placed: 47700CE | Entry: 380.1 | UpdatedSL: 401.3856
+2024-05-10 06:57:06,573 - 2024-05-10 06:57:06.573265 | Modified Order Placed: 47700CE | Entry: 380.1 | UpdatedSL: 385.330176
+2024-05-10 06:57:11,057 - 2024-05-10 06:57:11.057674 | Modified Order Placed: 47700CE | Entry: 380.1 | UpdatedSL: 369.91696896
+2024-05-10 06:57:11,066 - 2024-05-10 06:57:11.066262 | Modified Order Placed: 47700CE | Entry: 380.1 | UpdatedSL: 355.1202902016
+2024-05-10 06:57:11,196 - 1 | 2024-05-10 06:57:11.196007 | Stoploss hit: 47700PE | CMP: 406.75 | SL: 390.115
+2024-05-10 06:57:11,197 - 2024-05-10 06:57:11.197039 | Stoploss hit: 47700PE | CMP: 406.75 | SL: 390.115
+2024-05-10 06:57:49,451 - Order response: 47600PE {'type': 'success', 'code': 's-orders-0001', 'description': 'Request sent', 'result': {'AppOrderID': 1210027743, 'OrderUniqueIdentifier': 'BNF_1', 'ClientID': '*****'}}
+2024-05-10 06:57:49,451 - Order response: 47600CE {'type': 'success', 'code': 's-orders-0001', 'description': 'Request sent', 'result': {'AppOrderID': 1210027742, 'OrderUniqueIdentifier': 'BNF_1', 'ClientID': '*****'}}
+2024-05-10 06:57:50,047 - 352.6
+2024-05-10 06:57:50,053 - 387.35
+2024-05-10 06:57:50,054 - SL POINT: 342.6
+2024-05-10 06:57:50,061 - SL POINT: 377.35
+2024-05-10 06:57:50,068 - SL POINT: 426.085
+2024-05-10 06:57:50,075 - 2024-05-10 06:57:50.075243 | Opening Order Placed For Sell: 47600CE | ENTRY: 387.35 | SL: 426.085
+2024-05-10 06:57:50,096 - SL POINT: 387.86
+2024-05-10 06:57:50,103 - 2024-05-10 06:57:50.103478 | Opening Order Placed For Sell: 47600PE | ENTRY: 352.6 | SL: 387.86
+2024-05-10 06:57:50,122 - Starting Sell Check And Trail 47600PE | Entry: 352.6
+2024-05-10 06:57:50,270 - Opening Order Placing: 'result'
+2024-05-10 06:57:50,282 - Opening Order Placing: 'result'
+2024-05-10 06:59:12,941 - 2024-05-10 06:59:12.941941 | Modified Order Placed: 47600PE | Entry: 352.6 | UpdatedSL: 372.3456
+2024-05-10 06:59:12,967 - 2024-05-10 06:59:12.967096 | Modified Order Placed: 47600PE | Entry: 352.6 | UpdatedSL: 357.451776
+2024-05-10 07:00:12,321 - 1 | 2024-05-10 07:00:12.320985 | Stoploss hit: 47700CE | CMP: 356.5 | SL: 355.1202902016
+2024-05-10 07:00:12,322 - 2024-05-10 07:00:12.322233 | Stoploss hit: 47700CE | CMP: 356.5 | SL: 355.1202902016
+2024-05-10 07:00:13,017 - 2024-05-10 07:00:13.017772 | Modified Order Placed: 47600PE | Entry: 352.6 | UpdatedSL: 343.15370495999997
+2024-05-10 07:00:39,363 - Order response: 47700PE {'type': 'success', 'code': 's-orders-0001', 'description': 'Request sent', 'result': {'AppOrderID': 1210027795, 'OrderUniqueIdentifier': 'BNF_1', 'ClientID': '*****'}}
+2024-05-10 07:00:39,366 - Order response: 47700CE {'type': 'success', 'code': 's-orders-0001', 'description': 'Request sent', 'result': {'AppOrderID': 1210027796, 'OrderUniqueIdentifier': 'BNF_1', 'ClientID': '*****'}}
+2024-05-10 07:00:39,931 - 365.4
+2024-05-10 07:00:39,937 - 359.3
+2024-05-10 07:00:39,938 - SL POINT: 355.4
+2024-05-10 07:00:39,945 - SL POINT: 401.94
+2024-05-10 07:00:39,951 - 2024-05-10 07:00:39.951106 | Opening Order Placed For Sell: 47700PE | ENTRY: 365.4 | SL: 401.94
+2024-05-10 07:00:39,965 - Starting Sell Check And Trail 47700PE | Entry: 365.4
+2024-05-10 07:00:39,978 - SL POINT: 349.3
+2024-05-10 07:00:39,984 - SL POINT: 395.23
+2024-05-10 07:00:39,989 - 2024-05-10 07:00:39.989703 | Opening Order Placed For Sell: 47700CE | ENTRY: 359.3 | SL: 395.23
+2024-05-10 07:00:40,008 - Starting Sell Check And Trail 47700CE | Entry: 359.3
+2024-05-10 07:00:40,125 - Opening Order Placing: 'result'
+2024-05-10 07:00:40,237 - Opening Order Placing: 'result'
+2024-05-10 07:01:13,002 - 2024-05-10 07:01:13.002747 | Modified Order Placed: 47600PE | Entry: 352.6 | UpdatedSL: 329.4275567616
+2024-05-10 07:01:30,284 - 2024-05-10 07:01:30.284414 | Modified Order Placed: 47700PE | Entry: 365.4 | UpdatedSL: 385.8624
+2024-05-10 07:05:56,195 - 1 | 2024-05-10 07:05:56.195441 | Stoploss hit: 47600PE | CMP: 328.95 | SL: 329.4275567616
+2024-05-10 07:05:56,201 - 2024-05-10 07:05:56.201700 | Stoploss hit: 47600PE | CMP: 328.95 | SL: 329.4275567616
+2024-05-10 07:09:06,168 - 2024-05-10 07:09:06.168396 | Modified Order Placed: 47700CE | Entry: 359.3 | UpdatedSL: 379.42080000000004
+2024-05-10 07:09:28,624 - 1 | 2024-05-10 07:09:28.624374 | Stoploss hit: 47700PE | CMP: 385.85 | SL: 385.8624
+2024-05-10 07:09:28,631 - 2024-05-10 07:09:28.631201 | Stoploss hit: 47700PE | CMP: 385.85 | SL: 385.8624
+2024-05-10 07:14:44,018 - 2024-05-10 07:14:44.018288 | Modified Order Placed: 47700CE | Entry: 359.3 | UpdatedSL: 364.24396800000005
+2024-05-10 07:15:29,513 - 2024-05-10 07:15:29.513892 | Modified Order Placed: 47700CE | Entry: 359.3 | UpdatedSL: 349.67420928000007
+2024-05-10 07:16:42,351 - 2024-05-10 07:16:42.351455 | Modified Order Placed: 47700CE | Entry: 359.3 | UpdatedSL: 335.68724090880005
+2024-05-10 07:16:42,363 - 2024-05-10 07:16:42.363872 | Modified Order Placed: 47700CE | Entry: 359.3 | UpdatedSL: 322.25975127244806
+2024-05-10 07:16:42,376 - 2024-05-10 07:16:42.376125 | Modified Order Placed: 47700CE | Entry: 359.3 | UpdatedSL: 309.36936122155015
+2024-05-10 07:16:49,129 - 2024-05-10 07:16:49.129232 | Modified Order Placed: 47700CE | Entry: 359.3 | UpdatedSL: 296.99458677268814
+2024-05-10 07:16:51,662 - 1 | 2024-05-10 07:16:51.662287 | Stoploss hit: 47700CE | CMP: 296.15 | SL: 296.99458677268814
+2024-05-10 07:16:51,668 - 2024-05-10 07:16:51.668473 | Stoploss hit: 47700CE | CMP: 296.15 | SL: 296.99458677268814
+2024-05-10 09:25:22,397 - Order response: 47400CE {'type': 'success', 'code': 's-orders-0001', 'description': 'Request sent', 'result': {'AppOrderID': 1210029600, 'OrderUniqueIdentifier': 'BNF_1', 'ClientID': '*****'}}
+2024-05-10 09:25:22,404 - Opening Order Placing: dictionary update sequence element #0 has length 264; 2 is required
+2024-05-10 09:25:22,405 - ERROR IN PLACING ORDER dictionary update sequence element #0 has length 264; 2 is required
+2024-05-10 09:25:22,416 - Order response: 47400PE {'type': 'success', 'code': 's-orders-0001', 'description': 'Request sent', 'result': {'AppOrderID': 1210029601, 'OrderUniqueIdentifier': 'BNF_1', 'ClientID': '*****'}}
+2024-05-10 09:25:22,424 - Opening Order Placing: dictionary update sequence element #0 has length 264; 2 is required
+2024-05-10 09:25:22,424 - ERROR IN PLACING ORDER dictionary update sequence element #0 has length 264; 2 is required
+2024-05-10 09:48:55,441 - Order response: 47600CE {'type': 'success', 'code': 's-orders-0001', 'description': 'Request sent', 'result': {'AppOrderID': 1210030387, 'OrderUniqueIdentifier': 'BNF_1', 'ClientID': '*****'}}
+2024-05-10 09:48:55,444 - Order response: 47200PE {'type': 'success', 'code': 's-orders-0001', 'description': 'Request sent', 'result': {'AppOrderID': 1210030388, 'OrderUniqueIdentifier': 'BNF_1', 'ClientID': '*****'}}
+2024-05-10 09:48:56,198 - 263.15
+2024-05-10 09:48:56,205 - SL POINT: 253.14999999999998
+2024-05-10 09:48:56,210 - SL POINT: 289.465
+2024-05-10 09:48:56,215 - 2024-05-10 09:48:56.215853 | Opening Order Placed For Sell: 47600CE | ENTRY: 263.15 | SL: 289.465
+2024-05-10 09:48:56,242 - Starting Sell Check And Trail 47600CE | Entry: 263.15
+2024-05-10 09:48:56,353 - 228.55
+2024-05-10 09:48:56,359 - SL POINT: 218.55
+2024-05-10 09:48:56,364 - SL POINT: 251.405
+2024-05-10 09:48:56,369 - 2024-05-10 09:48:56.369917 | Opening Order Placed For Sell: 47200PE | ENTRY: 228.55 | SL: 251.405
+2024-05-10 09:48:56,396 - Starting Sell Check And Trail 47200PE | Entry: 228.55
+2024-05-10 09:48:56,441 - Opening Order Placing: 'result'
+2024-05-10 09:48:56,441 - ERROR IN PLACING ORDER 'result'
+2024-05-10 09:48:56,609 - Opening Order Placing: 'result'
+2024-05-10 09:48:56,609 - ERROR IN PLACING ORDER 'result'

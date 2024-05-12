@@ -1,0 +1,28 @@
+
+# PARAMETERS
+SL_PERCENTAGE = 10
+PORTFOLIO_RISK = -1000
+QTY = 15
+CE_MULTIPLE = 3
+PE_MULTIPLE = 3
+CUR_CE_MULTIPLE = 3
+CUR_PE_MULTIPLE = 3
+TRAIL_SL = 4
+CE_REENTRY = 1
+PE_REENTRY = 1
+IS_POINTS = False
+CURRENT_PNL = 0  # non user
+CURRENT_CE_MARGIN = 0  # non user
+CURRENT_PE_MARGIN = 0  # non user
+EMERGENCY_STOP = True  # non user
+EXPIRY_DATE = "16Apr2024"
+URL_PATH = "http://localhost:8001"
+NIFTY_ID = 26000
+TRADE = "SELL"
+OTM_GAP = 0
+SL_FLAG = 'TRUE'
+PROCESS_CONFIG = {
+    'task_id': None,
+    'logs': [],
+    'EMERGENCY_STOP': True
+}
