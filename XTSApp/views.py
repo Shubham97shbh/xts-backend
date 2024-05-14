@@ -35,13 +35,14 @@ class StartProcessView(APIView):
 
         try:
             # Insert the value into SharedObject
+            print('Started')
             inserted_value = SharedObject.insert_value(PROCESS_CONFIG, process_id)
             if inserted_value is None:
                 return Response({"message": f"Failed to start process {process_id}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
             # Calling Strategy
             task_id, strike_ce, strike_pe, ce_instrument_id, pe_instrument_id = bnfv_1(process_id, data)
-
+            print(task_id, strike_ce, strike_pe, ce_instrument_id, pe_instrument_id )
             # Modify the value in SharedObject
             SharedObject.modify_value(task_id, process_id, nested_key='task_id')
 
@@ -55,7 +56,7 @@ class StartProcessView(APIView):
             error_data = {'message': error_message, 'error': str(E)}
             return JsonResponse(error_data, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-        return Response({"status_code": 200, "process_id": process_id,"strike_ce":strike_ce,"strike_pe": strike_pe,
+        return JsonResponse({"status_code": 200, "process_id": process_id,"strike_ce":strike_ce,"strike_pe": strike_pe,
                         "ce_instrument_id": ce_instrument_id, "pe_instrument_id":pe_instrument_id,
                         "message": f"Process {process_id} started"}, status=status.HTTP_200_OK)
 
@@ -92,18 +93,18 @@ class StopProcessView(APIView):
         print(f'Process Flush -> {process}')
         if not process:
             return Response({"message": f"Process {process_id} not found"}, status=status.HTTP_404_NOT_FOUND)
-
-        # Delete process value
-        SharedObject.delete_value(process_id)
         
+        # stopping the process
+        stop_trade(process, process_id, trade)
+
         task_id = process.get('task_id')  # Accessing task_id safely
         if not task_id:
             return Response({"message": f"Process {process_id} stopped but without revoke for task_id: {task_id}"}, status=status.HTTP_202_ACCEPTED)
 
-        # stopping the process
-        stop_trade(process, process_id, trade)
+        # Delete process value
+        SharedObject.delete_value(process_id)
 
         # Revoke the task
-        app.control.revoke(task_id, terminate=True)
+        app.control.revoke(task_id, terminate=True, signal='SIGKILL')
         logger.info(f'Task for process {process_id}')
         return Response({"message": f"Process {process_id} stopped"}, status=status.HTTP_200_OK)

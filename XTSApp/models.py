@@ -1,22 +1,26 @@
 from django.db import models
 import json
+from celery.result import GroupResult
 
 def update_keys(node, kv, new_value):
-    if isinstance(node, list):
-        # if node is a list
-        for i in node:
-            update_keys(i, kv, new_value)
-    elif isinstance(node, dict):
-        if kv in node:
-            if isinstance(node[kv], dict):
-                node[kv].update(new_value)
-            elif isinstance(node[kv], list):
-                node[kv].append(new_value)
-            else:
-                node[kv] = new_value
-        # if node is a dic
-        for j in node.values():
-                update_keys(j, kv, new_value)
+    try:
+        if isinstance(node, list):
+            # if node is a list
+            for i in node:
+                update_keys(i, kv, new_value)
+        elif isinstance(node, dict):
+            if kv in node:
+                if isinstance(node[kv], dict):
+                    node[kv].update(new_value)
+                elif isinstance(node[kv], list):
+                    node[kv].append(new_value)
+                else:
+                    node[kv] = new_value
+            # if node is a dic
+            for j in node.values():
+                    update_keys(j, kv, new_value)
+    except Exception as e:
+        print('Failed in updating values {e}')
     return node
 
 class SharedObject(models.Model):
@@ -28,23 +32,34 @@ class SharedObject(models.Model):
         
         shared_object = cls.objects.filter(key=int(process_id)).first()
         if key and shared_object:
+            print('------changes done-----', shared_object.value)
             process = json.loads(shared_object.value)
             return process[key]
         
         return json.loads(shared_object.value) if shared_object else None
 
     @classmethod
-    def modify_value(cls, new_value, process_id, nested_key=None):
+    def modify_value(cls, new_value, process_id, nested_key=None, check_before=False):
         '''
         new_value = value to update, could be nested dictionary
         process_id = process_id to identify the record
         nested_key = dot-separated nested key path (e.g., 'key1.key2') to update nested value
         '''
+        # lock the table untill it's updated
         shared_object = cls.objects.filter(key=int(process_id)).first()
+        if check_before:
+            print('checking before updating the keys',new_value, process_id, nested_key)
+            while True:
+                current_value = json.loads(shared_object.value)
+                check_keys = current_value['trade_side_dic']['CE'].keys()
+                if 'entry_price' in check_keys and 'sl_point' in check_keys:
+                    break
+                shared_object = cls.objects.filter(key=int(process_id)).first()
+
         if shared_object:
             # Deserialize the value from JSON
             current_value = json.loads(shared_object.value)
-
+            print(current_value)
             # Check if a nested key is provided
             if nested_key:
                 # Split the nested key path into individual keys

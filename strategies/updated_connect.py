@@ -258,7 +258,7 @@ class UpdatedXTSConnect(XTSCommon):
             print("Placing Order Api Request data: ", response)
             return response
         except Exception as e:
-            print("Error in Placing Order: ", e)
+            print(f"Error in Placing Order: {response}", e)
 
     def place_bracketorder(
         self,
@@ -379,6 +379,7 @@ class UpdatedXTSConnect(XTSCommon):
             response = self._get("trades", params)
             return response
         except Exception as e:
+            print(f'r----------esponse --------------> {response}')
             return response["description"]
 
     def get_dealer_tradebook(self, clientID=None):
