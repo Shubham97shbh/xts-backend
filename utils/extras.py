@@ -53,10 +53,10 @@ def get_atm(xt, index: str, atm_strike) -> list[str]:
     for gap in range(-200, 300, 100):
         atm_strike_tmp = atm_strike + gap
         exchange_instrument_id_ce = get_exchange_instrument_id(
-            xt, index, atm_strike_tmp, "CE", "15May2024"
+            xt, index, atm_strike_tmp, "CE", "22May2024"
         )
         exchange_instrument_id_pe = get_exchange_instrument_id(
-            xt, index, atm_strike_tmp, "PE", "15May2024"
+            xt, index, atm_strike_tmp, "PE", "22May2024"
         )
         ce_rate = Data.get_ltp(exchange_instrument_id_ce)
         pe_rate = Data.get_ltp(exchange_instrument_id_pe)
@@ -80,7 +80,7 @@ def get_otm(xt, index: str, atm_strike, otm_gap, side) -> list[str]:
         'PE': atm_strike - otm_gap
     }
     exchange_instrument_id = get_exchange_instrument_id(
-        xt, index, atm_strike[side], side, "15May2024"
+        xt, index, atm_strike[side], side, "22May2024"
     )
     _rate = Data.get_ltp(exchange_instrument_id)
 

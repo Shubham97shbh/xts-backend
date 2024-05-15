@@ -47,11 +47,9 @@ def stop_trade(process, process_id, trade):
     id: Process ID which need to be stopped
     '''
     # variables for each data points
-    global CE_MULTIPLE, OTM_GAP, PE_MULTIPLE, CURRENT_PE_MARGIN, CURRENT_CE_MARGIN, CURRENT_PNL, \
-        EMERGENCY_STOP, CE_REENTRY, PE_REENTRY, SL_PERCENTAGE, QTY, TRADE, TRAIL_SL, CUR_CE_MULTIPLE, \
-        CUR_PE_MULTIPLE, PORTFOLIO_RISK, SL_FLAG, TRADE_TYPE
     
     logs = SharedObject.get_value(process_id, key='logs')
+    user_request = SharedObject.get_value(process_id, key='user_request')
     finished_flag = check_finished(logs)
     if finished_flag:
         return 'Already Square off or stoploss hit.'
@@ -80,7 +78,7 @@ def stop_trade(process, process_id, trade):
                 orderSide=xt.TRANSACTION_TYPE_BUY,
                 timeInForce=xt.VALIDITY_DAY,
                 disclosedQuantity=0,
-                orderQuantity=QTY,
+                orderQuantity=user_request['qty'],
                 limitPrice=0,
                 stopPrice=0,
                 orderUniqueIdentifier="BNF_1",
@@ -89,9 +87,9 @@ def stop_trade(process, process_id, trade):
             order_id = stoploss_order_res["result"]["AppOrderID"]
             time.sleep(0.5)
             #change
-            # sl_ltp = get_trade_ltp(xt, order_id=order_id)
-            sl_ltp = 0
-            CURRENT_PNL += entry_price - sl_ltp
+            sl_ltp = get_trade_ltp(xt, order_id=order_id)
+            # sl_ltp = 0
+            #CURRENT_PNL += entry_price - sl_ltp
             create_logs(
                 logger, process_id, f"1 | {datetime.now()} | Square off remaining Trades: {str(strike)+side} | CMP: {sl_ltp} | SL: {sl_point}")
             print(
@@ -118,7 +116,7 @@ def stop_trade(process, process_id, trade):
                 orderSide=xt.TRANSACTION_TYPE_SELL,
                 timeInForce=xt.VALIDITY_DAY,
                 disclosedQuantity=0,
-                orderQuantity=QTY,
+                orderQuantity=user_request['qty'],
                 limitPrice=0,
                 stopPrice=0,
                 orderUniqueIdentifier="BNF_1",
@@ -126,7 +124,7 @@ def stop_trade(process, process_id, trade):
             order_id = stoploss_order_res["result"]["AppOrderID"]
             time.sleep(0.5)
             sl_ltp = get_trade_ltp(xt, order_id=order_id)
-            CURRENT_PNL += entry_price + sl_ltp
+            # CURRENT_PNL += entry_price + sl_ltp
             create_logs(logger,  process_id,
                         f"1 | {datetime.now()} | Square off remaining Trades: {str(strike)+side} | CMP: {sl_ltp} | SL: {sl_point}"
                         )
@@ -136,11 +134,12 @@ def stop_trade(process, process_id, trade):
     return "Stopped"
 
 @shared_task(bind=True, max_retries=None)
-def check_and_trail_sl_sell(self, exchange_instrument_id, strike, side, process_id, CUR_CE_MULTIPLE, CUR_PE_MULTIPLE):
+def check_and_trail_sl_sell(self, exchange_instrument_id, strike, side, process_id):
     global CE_MULTIPLE, OTM_GAP, PE_MULTIPLE, CURRENT_PE_MARGIN, CURRENT_CE_MARGIN, CURRENT_PNL, \
-        EMERGENCY_STOP, CE_REENTRY, PE_REENTRY, SL_PERCENTAGE, QTY, TRADE, TRAIL_SL, \
-        PORTFOLIO_RISK, SL_FLAG, TRADE_TYPE
+        EMERGENCY_STOP, CE_REENTRY, PE_REENTRY, SL_PERCENTAGE, TRADE, TRAIL_SL, \
+        PORTFOLIO_RISK, SL_FLAG, TRADE_TYPE, CUR_CE_MULTIPLE, CUR_PE_MULTIPLE
     
+    user_request = SharedObject.get_value(process_id, key='user_request')
     process = SharedObject.get_value(process_id)
     print(f'Process after trading {process}')
     process_points = process['trade_side_dic'][side]
@@ -157,13 +156,12 @@ def check_and_trail_sl_sell(self, exchange_instrument_id, strike, side, process_
             return
         # Emergency stop
         EMERGENCY_STOP = process.get('EMERGENCY_STOP', True)
-        cur_price = round(Data.get_ltp(exchange_instrument_id))
-        
-        if SL_FLAG.upper() == 'FALSE':
+        if not SL_FLAG:
             continue
-        pnl_percent = (entry_price - cur_price) / cur_price * 100
         if side == "CE":
             # ask
+            cur_price = round(Data.get_ltp(exchange_instrument_id))
+            pnl_percent = (entry_price - cur_price) / cur_price * 100
             CURRENT_CE_MARGIN = entry_price - cur_price
             if IS_POINTS:
                 if CURRENT_CE_MARGIN >= CUR_CE_MULTIPLE:
@@ -181,6 +179,8 @@ def check_and_trail_sl_sell(self, exchange_instrument_id, strike, side, process_
                                 )
 
         if side == "PE":
+            cur_price = round(Data.get_ltp(exchange_instrument_id))
+            pnl_percent = (entry_price - cur_price) / cur_price * 100
             CURRENT_PE_MARGIN = entry_price - cur_price
             if IS_POINTS:
                 if CURRENT_PE_MARGIN >= CUR_PE_MULTIPLE:
@@ -198,7 +198,7 @@ def check_and_trail_sl_sell(self, exchange_instrument_id, strike, side, process_
                                 )
 
         current_portfolio_value = float(CURRENT_CE_MARGIN + CURRENT_PE_MARGIN)
-        print(current_portfolio_value)
+        print(cur_price, current_portfolio_value)
 
         if cur_price >= sl_point:
             stoploss_order_res = xt.place_order(
@@ -209,7 +209,7 @@ def check_and_trail_sl_sell(self, exchange_instrument_id, strike, side, process_
                 orderSide=xt.TRANSACTION_TYPE_BUY,
                 timeInForce=xt.VALIDITY_DAY,
                 disclosedQuantity=0,
-                orderQuantity=QTY,
+                orderQuantity=user_request['qty'],
                 limitPrice=0,
                 stopPrice=0,
                 orderUniqueIdentifier="BNF_1",
@@ -218,10 +218,10 @@ def check_and_trail_sl_sell(self, exchange_instrument_id, strike, side, process_
             sl_ltp = get_trade_ltp(xt, order_id=order_id)
             CURRENT_PNL += entry_price - sl_ltp
             create_logs(logger,  process_id,
-                        f"1 | {datetime.now()} | Stoploss hit {side}: {str(strike)+side} | CMP: {sl_ltp} | SL: {sl_point}"
+                        f"1 | {datetime.now()} | Stoploss hit {side}: {str(strike)+side} | CMP: {sl_ltp} | SL: {sl_point} | Current Price: {cur_price}| Instrument ID: {exchange_instrument_id}"
                         )
             create_logs(logger,  process_id,
-                        f"{datetime.now()} | Stoploss hit {side}: {str(strike)+side} | CMP: {sl_ltp} | SL: {sl_point}"
+                        f"{datetime.now()} | Stoploss hit {side}: {str(strike)+side} | CMP: {sl_ltp} | SL: {sl_point} | Current Price: {cur_price}"
                         )
             return
 
@@ -285,15 +285,14 @@ def check_and_trail_sl_sell(self, exchange_instrument_id, strike, side, process_
     return 'Success'
 
 @shared_task(bind=True, max_retries=None)
-def check_and_trail_sl_buy(self, exchange_instrument_id, strike, side, process_id, CUR_CE_MULTIPLE, CUR_PE_MULTIPLE):
+def check_and_trail_sl_buy(self, exchange_instrument_id, strike, side, process_id):
     global CE_MULTIPLE, OTM_GAP, PE_MULTIPLE, CURRENT_PE_MARGIN, CURRENT_CE_MARGIN, CURRENT_PNL, \
-        EMERGENCY_STOP, CE_REENTRY, PE_REENTRY, SL_PERCENTAGE, QTY, TRADE, TRAIL_SL, \
-        PORTFOLIO_RISK, SL_FLAG, TRADE_TYPE
-   
+        EMERGENCY_STOP, CE_REENTRY, PE_REENTRY, SL_PERCENTAGE, TRADE, TRAIL_SL, \
+        PORTFOLIO_RISK, SL_FLAG, TRADE_TYPE,CUR_CE_MULTIPLE, CUR_PE_MULTIPLE
+    create_logs(logger, process_id, f'metadata | {CUR_CE_MULTIPLE}{CUR_PE_MULTIPLE}')
     # Fetching latest value
+    user_request = SharedObject.get_value(process_id, key='user_request')
     process = SharedObject.get_value(process_id)
-    print(f'Process after trading {process}')
-
     process_points = process['trade_side_dic'][side]
     entry_price = process_points['entry_price']
     sl_point = process_points['sl_point']
@@ -309,11 +308,12 @@ def check_and_trail_sl_buy(self, exchange_instrument_id, strike, side, process_i
         # Emergency stop
         EMERGENCY_STOP = process.get('EMERGENCY_STOP', True)
         cur_price = round(Data.get_ltp(exchange_instrument_id))
-        create_logs(logger, process_id, f'price on process {cur_price}-{exchange_instrument_id}')
-        if SL_FLAG.upper() == 'FALSE':
+        # create_logs(logger, process_id, f'price on process {cur_price}-{exchange_instrument_id}')
+        if not SL_FLAG:
             continue
         pnl_percent = (cur_price-entry_price)/ cur_price * 100
         if side == "CE":
+            cur_price = round(Data.get_ltp(exchange_instrument_id))
             CURRENT_CE_MARGIN = cur_price - entry_price
             if IS_POINTS:
                 if CURRENT_CE_MARGIN <= CUR_CE_MULTIPLE:
@@ -331,6 +331,7 @@ def check_and_trail_sl_buy(self, exchange_instrument_id, strike, side, process_i
                                 )
 
         if side == "PE":
+            cur_price = round(Data.get_ltp(exchange_instrument_id))
             CURRENT_PE_MARGIN = cur_price - entry_price
             if IS_POINTS:
                 if CURRENT_PE_MARGIN <= CUR_PE_MULTIPLE:
@@ -359,7 +360,7 @@ def check_and_trail_sl_buy(self, exchange_instrument_id, strike, side, process_i
                 orderSide=xt.TRANSACTION_TYPE_SELL,
                 timeInForce=xt.VALIDITY_DAY,
                 disclosedQuantity=0,
-                orderQuantity=QTY,
+                orderQuantity=user_request['qty'],
                 limitPrice=0,
                 stopPrice=0,
                 orderUniqueIdentifier="BNF_1",
@@ -453,9 +454,9 @@ def order_selling(exchange_instrument_id, strike, side, process_id):
         stopPrice=0,
         orderUniqueIdentifier="BNF_1",
     )
-    print(f"Order response: {str(strike)+side} {order_res}")
+    print(f"Order response: {str(strike)+side}")
     create_logs(logger,  process_id,
-                f"Order response: {str(strike)+side} {order_res}")
+                f"Order response: {str(strike)+side}")
     order_id = order_res["result"]["AppOrderID"]
     time.sleep(0.5)
     entry_price = get_trade_ltp(xt, order_id=order_id)
@@ -498,7 +499,7 @@ def order_buying(exchange_instrument_id, strike, side, process_id):
     create_logs(logger,  process_id,
                 f"Order response: {str(strike)+side} {order_res}")
     order_id = order_res["result"]["AppOrderID"]
-    time.sleep(2)
+    time.sleep(1)
     entry_price = get_trade_ltp(xt, order_id=order_id)
     create_logs(logger,  process_id, entry_price)
     sl_point = entry_price + SL_PERCENTAGE
@@ -521,10 +522,29 @@ def order_buying(exchange_instrument_id, strike, side, process_id):
 #     _, exchange_instrument_id, strike = get_atm(xt, "BANKNIFTY", atm)
 
 @app.task
-def place_trade(strike, side, exchange_instrument_id, process_id, TRADE, CUR_CE_MULTIPLE, CUR_PE_MULTIPLE):
+def place_trade(strike, side, exchange_instrument_id, process_id, data):
     global CE_MULTIPLE, OTM_GAP, PE_MULTIPLE, CURRENT_PE_MARGIN, CURRENT_CE_MARGIN, CURRENT_PNL, \
         EMERGENCY_STOP, CE_REENTRY, PE_REENTRY, SL_PERCENTAGE, QTY, TRAIL_SL, \
-        PORTFOLIO_RISK, SL_FLAG, TRADE_TYPE
+        PORTFOLIO_RISK, SL_FLAG, TRADE_TYPE, CUR_CE_MULTIPLE, CUR_PE_MULTIPLE
+    
+    QTY = int(data['qty'])
+    PORTFOLIO_RISK = -1 * ((QTY / 15) * 1_00_000) * 0.01
+    SL_PERCENTAGE = int(data['sl_percentage'])
+    TRAIL_SL = int(data['trailing_sl'])
+    CUR_CE_MULTIPLE = CE_MULTIPLE = int(data['trailing_tp'])
+    CUR_PE_MULTIPLE = PE_MULTIPLE = int(data['trailing_tp'])
+    CE_REENTRY = int(data['ce_rentry'])
+    PE_REENTRY = int(data['pe_rentry'])
+    IS_POINTS = data['isPoint']
+    TRADE = data['trade'].upper()
+    TRADE_TYPE = ''
+    OTM_GAP = int(data['otm_gap']) if data['otm_gap'] else 0
+    SL_FLAG = True if  data['sl_flag'] =='true' else False
+    CURRENT_PNL = 0
+    CURRENT_CE_MARGIN = 0
+    CURRENT_PE_MARGIN = 0
+    EMERGENCY_STOP = True
+
     try:
         sl_point, entry_price = 0, 0
         create_logs(logger, process_id, f'Trade -->> {TRADE} {side}, {strike}')
@@ -553,7 +573,7 @@ def place_trade(strike, side, exchange_instrument_id, process_id, TRADE, CUR_CE_
         if TRADE == 'SELL':
             print('Process starts for selling')
             check_and_trail_sl_sell.apply_async(
-                (exchange_instrument_id, strike, side, str(process_id), CUR_CE_MULTIPLE, CUR_PE_MULTIPLE),
+                (exchange_instrument_id, strike, side, str(process_id)),
                 countdown=0  # Optionally add delay here if needed
             )
             EMERGENCY_STOP = SharedObject.get_value(process_id, key='EMERGENCY_STOP')
@@ -564,8 +584,8 @@ def place_trade(strike, side, exchange_instrument_id, process_id, TRADE, CUR_CE_
                     EMERGENCY_STOP = SharedObject.get_value(process_id, key='EMERGENCY_STOP')
                     spot = Data.get_ltp(exchange_instrument_id)
                     atm = int(round(spot / 100)) * 100
-                    exchange_instrument_id, _ = get_otm(
-                        xt, "BANKNIFTY", atm, OTM_GAP, side)
+                    exchange_instrument_id, _ = get_atm(
+                        xt, "BANKNIFTY", atm)
                     try:
                         order_res = xt.place_order(exchangeSegment=xt.EXCHANGE_NSEFO,
                                                    exchangeInstrumentID=exchange_instrument_id,
@@ -577,10 +597,10 @@ def place_trade(strike, side, exchange_instrument_id, process_id, TRADE, CUR_CE_
                                                    orderQuantity=QTY,
                                                    stopPrice=0,
                                                    orderUniqueIdentifier="BNF_1")
-                        create_logs(logger, process_id, f'2. Order Placed for CE {TRADE}-{order_res}')
-                        print('Placeing 2 order ->', order_res)
+                        # create_logs(logger, process_id, f'2. Order Placed for CE {TRADE}-{order_res}')
+                        # print('Placeing 2 order ->', order_res)
                         order_id = order_res["result"]['AppOrderID']
-                        time.sleep(2)
+                        time.sleep(1)
                         entry_price = get_trade_ltp(xt, order_id=order_id)
                         sl_point = entry_price - SL_PERCENTAGE
                         if IS_POINTS is False:
@@ -590,7 +610,7 @@ def place_trade(strike, side, exchange_instrument_id, process_id, TRADE, CUR_CE_
                                     f"{datetime.now()} | Reentry Order Placed: {strike} | Entry Price: {entry_price} | SL: {sl_point}")
                         CE_REENTRY -= 1
                         check_and_trail_sl_sell.apply_async(
-                            (exchange_instrument_id, strike, side, str(process_id),CUR_CE_MULTIPLE, CUR_PE_MULTIPLE),
+                            (exchange_instrument_id, strike, side, str(process_id)),
                             countdown=0  # Optionally add delay here if needed
                         )
                         if CE_REENTRY == 0 and PE_REENTRY != 0:
@@ -604,8 +624,8 @@ def place_trade(strike, side, exchange_instrument_id, process_id, TRADE, CUR_CE_
                     EMERGENCY_STOP = SharedObject.get_value(process_id, key='EMERGENCY_STOP')
                     spot = Data.get_ltp(exchange_instrument_id)
                     atm = int(round(spot / 100)) * 100
-                    exchange_instrument_id, _ = get_otm(
-                        xt, "BANKNIFTY", atm, OTM_GAP, strike)
+                    exchange_instrument_id, _ = get_atm(
+                        xt, "BANKNIFTY", atm)
                     try:
                         order_res = xt.place_order(exchangeSegment=xt.EXCHANGE_NSEFO,
                                                    exchangeInstrumentID=exchange_instrument_id,
@@ -617,7 +637,7 @@ def place_trade(strike, side, exchange_instrument_id, process_id, TRADE, CUR_CE_
                                                    orderQuantity=QTY,
                                                    stopPrice=0,
                                                    orderUniqueIdentifier="BNF_1")
-                        create_logs(logger, process_id, f'2. Order Placed for PE {TRADE}-{order_res}')
+                        # create_logs(logger, process_id, f'2. Order Placed for PE {TRADE}-{order_res}')
                         order_id = order_res["result"]['AppOrderID']
                         time.sleep(0.5)
                         entry_price = get_trade_ltp(xt, order_id=order_id)
@@ -629,7 +649,7 @@ def place_trade(strike, side, exchange_instrument_id, process_id, TRADE, CUR_CE_
                                     f"{datetime.now()} | Reentry Order Placed: {strike} | Entry Price: {entry_price} | SL: {sl_point}")
                         PE_REENTRY -= 1
                         check_and_trail_sl_sell.apply_async(
-                            (exchange_instrument_id, strike, side, str(process_id),CUR_CE_MULTIPLE, CUR_PE_MULTIPLE),
+                            (exchange_instrument_id, strike, side, str(process_id)),
                             countdown=0)
                         if PE_REENTRY == 0 and CE_REENTRY != 0:
                             CE_REENTRY = 0
@@ -640,8 +660,8 @@ def place_trade(strike, side, exchange_instrument_id, process_id, TRADE, CUR_CE_
 
         elif TRADE == 'BUY':
             print('Process starts for buying')
-            check_and_trail_sl_buy.delay(
-                exchange_instrument_id, strike, side, str(process_id), CUR_CE_MULTIPLE, CUR_PE_MULTIPLE)
+            check_and_trail_sl_buy.apply_async(
+                (exchange_instrument_id, strike, side, str(process_id)), countdown = 0)
             EMERGENCY_STOP = SharedObject.get_value(process_id, key='EMERGENCY_STOP')
             # Re-Entry Logic
             ## == ##
@@ -663,7 +683,7 @@ def place_trade(strike, side, exchange_instrument_id, process_id, TRADE, CUR_CE_
                                                    orderQuantity=QTY,
                                                    stopPrice=0,
                                                    orderUniqueIdentifier="BNF_1")
-                        create_logs(logger, process_id, f'2. Order Placed for CE {TRADE}-{order_res}')
+                        # create_logs(logger, process_id, f'2. Order Placed for CE {TRADE}-{order_res}')
                         order_id = order_res["result"]['AppOrderID']
                         time.sleep(0.5)
                         entry_price = get_trade_ltp(xt, order_id=order_id)
@@ -674,8 +694,8 @@ def place_trade(strike, side, exchange_instrument_id, process_id, TRADE, CUR_CE_
                         create_logs(logger,  process_id,
                                     f"{datetime.now()} | Reentry Order Placed: {strike} | Entry Price: {entry_price} | SL: {sl_point}")
                         CE_REENTRY -= 1
-                        check_and_trail_sl_buy.delay(
-                            exchange_instrument_id, strike, side, str(process_id), CUR_CE_MULTIPLE, CUR_PE_MULTIPLE)
+                        check_and_trail_sl_buy.apply_async(
+                            exchange_instrument_id, strike, side, str(process_id), countdown = 0)
                         if CE_REENTRY == 0 and PE_REENTRY != 0:
                             PE_REENTRY = 0
                     except KeyError as e:
@@ -700,7 +720,7 @@ def place_trade(strike, side, exchange_instrument_id, process_id, TRADE, CUR_CE_
                                                    orderQuantity=QTY,
                                                    stopPrice=0,
                                                    orderUniqueIdentifier="BNF_1")
-                        create_logs(logger, process_id, f'2. Order Placed for PE {TRADE}-{order_res}')
+                        # create_logs(logger, process_id, f'2. Order Placed for PE {TRADE}-{order_res}')
                         order_id = order_res["result"]['AppOrderID']
                         time.sleep(0.5)
                         entry_price = get_trade_ltp(xt, order_id=order_id)
@@ -711,8 +731,8 @@ def place_trade(strike, side, exchange_instrument_id, process_id, TRADE, CUR_CE_
                         create_logs(logger,  process_id,
                                     f"{datetime.now()} | Reentry Order Placed: {strike} | Entry Price: {entry_price} | SL: {sl_point}")
                         PE_REENTRY -= 1
-                        check_and_trail_sl_buy.delay(
-                            exchange_instrument_id, strike, side, str(process_id),CUR_CE_MULTIPLE, CUR_PE_MULTIPLE)
+                        check_and_trail_sl_buy.apply_async(
+                            (exchange_instrument_id, strike, side, str(process_id)), countdown= 0)
                         if PE_REENTRY == 0 and CE_REENTRY != 0:
                             CE_REENTRY = 0
                     except KeyError as e:
@@ -729,23 +749,6 @@ def bnfv_1(process_id, data: dict):
     global CE_MULTIPLE, OTM_GAP, PE_MULTIPLE, CURRENT_PE_MARGIN, CURRENT_CE_MARGIN, CURRENT_PNL, \
         EMERGENCY_STOP, CE_REENTRY, PE_REENTRY, SL_PERCENTAGE, QTY, TRADE, TRAIL_SL, CUR_CE_MULTIPLE, \
         CUR_PE_MULTIPLE, PORTFOLIO_RISK, SL_FLAG, TRADE_TYPE
-    QTY = int(data['qty'])
-    PORTFOLIO_RISK = -1 * ((QTY / 15) * 1_00_000) * 0.01
-    SL_PERCENTAGE = int(data['sl_percentage'])
-    TRAIL_SL = int(data['trailing_sl'])
-    CUR_CE_MULTIPLE = CE_MULTIPLE = int(data['trailing_tp'])
-    CUR_PE_MULTIPLE = PE_MULTIPLE = int(data['trailing_tp'])
-    CE_REENTRY = int(data['ce_rentry'])
-    PE_REENTRY = int(data['pe_rentry'])
-    IS_POINTS = data['isPoint']
-    TRADE = data['trade'].upper()
-    TRADE_TYPE = ''
-    OTM_GAP = int(data['otm_gap'])
-    SL_FLAG = data['sl_flag']
-    CURRENT_PNL = 0
-    CURRENT_CE_MARGIN = 0
-    CURRENT_PE_MARGIN = 0
-    EMERGENCY_STOP = True
     create_logs(logger,  process_id,
                 f"""
             Running New Strategy at {datetime.now()}
@@ -774,8 +777,9 @@ def bnfv_1(process_id, data: dict):
         IS POINTS: {IS_POINTS}
         """
     )
+    TRADE = data['trade'].upper()
     try:
-        print("NIFTY", NIFTY_ID)
+        print("NIFTY", NIFTY_ID) 
         spot = Data.get_ltp(26001)
         print("SPOT", spot)
         atm = int(round(spot / 100)) * 100
@@ -807,13 +811,14 @@ def bnfv_1(process_id, data: dict):
             }
 
         # update in database
-        SharedObject.modify_value(trade_dic, process_id)
+        print(f'Trading place for {TRADE}-{TRADE_TYPE}--{trade_dic}')
 
-        print(f'Trading place for {TRADE}-{TRADE_TYPE}')
+        SharedObject.modify_value(trade_dic, process_id)
+        SharedObject.modify_value(data, process_id, nested_key='user_request')
         # Create task signatures for place_trade tasks
         # Your asynchronous task for strategy here
-        async_result = group(place_trade.s(strike_ce, "CE", ce_instrument_id, process_id, TRADE, CUR_CE_MULTIPLE, CUR_PE_MULTIPLE),
-                             place_trade.s(strike_pe, "PE", pe_instrument_id, process_id, TRADE, CUR_CE_MULTIPLE, CUR_PE_MULTIPLE)).apply_async()
+        async_result = group(place_trade.s(strike_ce, "CE", ce_instrument_id, process_id, data),
+                             place_trade.s(strike_pe, "PE", pe_instrument_id, process_id, data)).apply_async()
 
         print(
             f'{datetime.now()}| async result {async_result} | Trade Place: {TRADE} | Has been completed')
