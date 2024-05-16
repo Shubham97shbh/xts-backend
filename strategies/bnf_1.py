@@ -135,12 +135,21 @@ def stop_trade(process, process_id, trade):
 
 @shared_task(bind=True, max_retries=None)
 def check_and_trail_sl_sell(self, exchange_instrument_id, strike, side, process_id):
-    global CE_MULTIPLE, OTM_GAP, PE_MULTIPLE, CURRENT_PE_MARGIN, CURRENT_CE_MARGIN, CURRENT_PNL, \
-        EMERGENCY_STOP, CE_REENTRY, PE_REENTRY, SL_PERCENTAGE, TRADE, TRAIL_SL, \
-        PORTFOLIO_RISK, SL_FLAG, TRADE_TYPE, CUR_CE_MULTIPLE, CUR_PE_MULTIPLE
+    global CURRENT_PE_MARGIN, CURRENT_CE_MARGIN, CURRENT_PNL, \
+        EMERGENCY_STOP, TRAIL_SL, \
+        PORTFOLIO_RISK
     
     user_request = SharedObject.get_value(process_id, key='user_request')
     process = SharedObject.get_value(process_id)
+    CE_MULTIPLE = CUR_CE_MULTIPLE= int(user_request['trailing_sl'])
+    OTM_GAP = int(user_request['otm_gap']) if user_request['otm_gap'] else 0 
+    PE_MULTIPLE= CUR_PE_MULTIPLE = int(user_request['trailing_sl'])
+    CE_REENTRY = int(user_request['pe_rentry'])
+    PE_REENTRY = int(user_request['ce_rentry'])
+    SL_PERCENTAGE = int(user_request['sl_percentage'])
+    TRADE = user_request['trade']
+    SL_FLAG = user_request['sl_flag']
+
     print(f'Process after trading {process}')
     process_points = process['trade_side_dic'][side]
     entry_price = process_points['entry_price']
@@ -286,9 +295,18 @@ def check_and_trail_sl_sell(self, exchange_instrument_id, strike, side, process_
 
 @shared_task(bind=True, max_retries=None)
 def check_and_trail_sl_buy(self, exchange_instrument_id, strike, side, process_id):
-    global CE_MULTIPLE, OTM_GAP, PE_MULTIPLE, CURRENT_PE_MARGIN, CURRENT_CE_MARGIN, CURRENT_PNL, \
-        EMERGENCY_STOP, CE_REENTRY, PE_REENTRY, SL_PERCENTAGE, TRADE, TRAIL_SL, \
-        PORTFOLIO_RISK, SL_FLAG, TRADE_TYPE,CUR_CE_MULTIPLE, CUR_PE_MULTIPLE
+    global CURRENT_PE_MARGIN, CURRENT_CE_MARGIN, CURRENT_PNL, \
+        EMERGENCY_STOP , TRADE, TRAIL_SL, \
+        PORTFOLIO_RISK, TRADE_TYPE
+    user_request = SharedObject.get_value(process_id, key = 'user_request')
+    CE_MULTIPLE = CUR_CE_MULTIPLE= int(user_request['trailing_sl'])
+    OTM_GAP = int(user_request['otm_gap']) if user_request['otm_gap'] else 0 
+    PE_MULTIPLE= CUR_PE_MULTIPLE = int(user_request['trailing_sl'])
+    CE_REENTRY = int(user_request['pe_rentry'])
+    PE_REENTRY = int(user_request['ce_rentry'])
+    SL_PERCENTAGE = int(user_request['sl_percentage'])
+    TRADE = user_request['trade']
+    SL_FLAG = user_request['sl_flag']
     create_logs(logger, process_id, f'metadata | {CUR_CE_MULTIPLE}{CUR_PE_MULTIPLE}')
     # Fetching latest value
     user_request = SharedObject.get_value(process_id, key='user_request')
@@ -316,14 +334,14 @@ def check_and_trail_sl_buy(self, exchange_instrument_id, strike, side, process_i
             cur_price = round(Data.get_ltp(exchange_instrument_id))
             CURRENT_CE_MARGIN = cur_price - entry_price
             if IS_POINTS:
-                if CURRENT_CE_MARGIN <= CUR_CE_MULTIPLE:
+                if CURRENT_CE_MARGIN >= CUR_CE_MULTIPLE:
                     sl_point += TRAIL_SL
                     CUR_CE_MULTIPLE += CE_MULTIPLE
                     create_logs(logger,  process_id,
                                 f"{datetime.now()} | Modified Order Placed: {str(strike)+side} | Entry: {entry_price} | UpdatedSL: {sl_point}"
                                 )
             else:
-                if pnl_percent <= CUR_CE_MULTIPLE:
+                if pnl_percent >= CUR_CE_MULTIPLE:
                     sl_point = sl_point + (sl_point * (TRAIL_SL / 100))
                     CUR_CE_MULTIPLE += CE_MULTIPLE
                     create_logs(logger,  process_id,
@@ -334,14 +352,14 @@ def check_and_trail_sl_buy(self, exchange_instrument_id, strike, side, process_i
             cur_price = round(Data.get_ltp(exchange_instrument_id))
             CURRENT_PE_MARGIN = cur_price - entry_price
             if IS_POINTS:
-                if CURRENT_PE_MARGIN <= CUR_PE_MULTIPLE:
+                if CURRENT_PE_MARGIN >= CUR_PE_MULTIPLE:
                     sl_point += TRAIL_SL
                     CUR_PE_MULTIPLE += PE_MULTIPLE
                     create_logs(logger,  process_id,
                                 f"{datetime.now()} | Modified Order Placed: {str(strike)+side} | Entry: {entry_price} | UpdatedSL: {sl_point}"
                                 )
             else:
-                if pnl_percent <= CUR_PE_MULTIPLE:
+                if pnl_percent >= CUR_PE_MULTIPLE:
                     sl_point = sl_point + (sl_point * (TRAIL_SL / 100))
                     CUR_PE_MULTIPLE += PE_MULTIPLE
                     create_logs(logger,  process_id,
@@ -437,9 +455,20 @@ def check_and_trail_sl_buy(self, exchange_instrument_id, strike, side, process_i
 
 # for selling
 def order_selling(exchange_instrument_id, strike, side, process_id):
-    global CE_MULTIPLE, OTM_GAP, PE_MULTIPLE, CURRENT_PE_MARGIN, CURRENT_CE_MARGIN, CURRENT_PNL, \
-        EMERGENCY_STOP, CE_REENTRY, PE_REENTRY, SL_PERCENTAGE, QTY, TRADE, TRAIL_SL, CUR_CE_MULTIPLE, \
-        CUR_PE_MULTIPLE, PORTFOLIO_RISK, SL_FLAG, TRADE_TYPE
+    global CURRENT_PE_MARGIN, CURRENT_CE_MARGIN, CURRENT_PNL, \
+        EMERGENCY_STOP,TRAIL_SL, \
+        PORTFOLIO_RISK, TRADE_TYPE
+    
+    user_request = SharedObject.get_value(process_id, key='user_request')
+    CE_MULTIPLE = CUR_CE_MULTIPLE= int(user_request['trailing_sl'])
+    OTM_GAP = int(user_request['otm_gap']) if user_request['otm_gap'] else 0 
+    PE_MULTIPLE= CUR_PE_MULTIPLE = int(user_request['trailing_sl'])
+    CE_REENTRY = int(user_request['pe_rentry'])
+    PE_REENTRY = int(user_request['ce_rentry'])
+    SL_PERCENTAGE = int(user_request['sl_percentage'])
+    QTY = int(user_request['qty'])
+    TRADE = user_request['trade']
+    SL_FLAG = user_request['sl_flag']
 
     order_res = xt.place_order(
         exchangeSegment=xt.EXCHANGE_NSEFO,
@@ -479,9 +508,19 @@ def order_selling(exchange_instrument_id, strike, side, process_id):
 
 
 def order_buying(exchange_instrument_id, strike, side, process_id):
-    global CE_MULTIPLE, OTM_GAP, PE_MULTIPLE, CURRENT_PE_MARGIN, CURRENT_CE_MARGIN, CURRENT_PNL, \
-        EMERGENCY_STOP, CE_REENTRY, PE_REENTRY, SL_PERCENTAGE, QTY, TRADE, TRAIL_SL, CUR_CE_MULTIPLE, \
-        CUR_PE_MULTIPLE, PORTFOLIO_RISK, SL_FLAG, TRADE_TYPE
+    global CURRENT_PE_MARGIN, CURRENT_CE_MARGIN, CURRENT_PNL, \
+        EMERGENCY_STOP, \
+        PORTFOLIO_RISK,TRADE_TYPE
+    user_request = SharedObject.get_value(process_id, key = 'user_request')
+    QTY = int(user_request['qty'])
+    CE_MULTIPLE = CUR_CE_MULTIPLE= int(user_request['trailing_sl'])
+    OTM_GAP = int(user_request['otm_gap']) if user_request['otm_gap'] else 0 
+    PE_MULTIPLE= CUR_PE_MULTIPLE = int(user_request['trailing_sl'])
+    CE_REENTRY = int(user_request['pe_rentry'])
+    PE_REENTRY = int(user_request['ce_rentry'])
+    SL_PERCENTAGE = int(user_request['sl_percentage'])
+    TRADE = user_request['trade']
+    SL_FLAG = user_request['sl_flag']
     order_res = xt.place_order(
         exchangeSegment=xt.EXCHANGE_NSEFO,
         exchangeInstrumentID=exchange_instrument_id,
@@ -523,9 +562,9 @@ def order_buying(exchange_instrument_id, strike, side, process_id):
 
 @app.task
 def place_trade(strike, side, exchange_instrument_id, process_id, data):
-    global CE_MULTIPLE, OTM_GAP, PE_MULTIPLE, CURRENT_PE_MARGIN, CURRENT_CE_MARGIN, CURRENT_PNL, \
-        EMERGENCY_STOP, CE_REENTRY, PE_REENTRY, SL_PERCENTAGE, QTY, TRAIL_SL, \
-        PORTFOLIO_RISK, SL_FLAG, TRADE_TYPE, CUR_CE_MULTIPLE, CUR_PE_MULTIPLE
+    global CURRENT_PE_MARGIN, CURRENT_CE_MARGIN, CURRENT_PNL, \
+        EMERGENCY_STOP, \
+        PORTFOLIO_RISK, TRADE_TYPE
     
     QTY = int(data['qty'])
     PORTFOLIO_RISK = -1 * ((QTY / 15) * 1_00_000) * 0.01
@@ -778,6 +817,7 @@ def bnfv_1(process_id, data: dict):
         """
     )
     TRADE = data['trade'].upper()
+    OTM_GAP = int(data['otm_gap']) if data['otm_gap'] else 0
     try:
         print("NIFTY", NIFTY_ID) 
         spot = Data.get_ltp(26001)
